@@ -9,22 +9,20 @@ public class Programa {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("loja");
 		EntityManager manager = factory.createEntityManager();
 		
-		Pessoa anderson = new Pessoa();
-		anderson.setNome("Anderson");		
+		NotaFiscal nota = new NotaFiscal("Anderson");
 		
+		Item privada = new Item("Privada", 10.5d, nota);
+		Item pinico = new Item("Pinico", 10.5d, nota);
+		Item chupeta = new Item("Chupeta", 10.5d, nota);		
 		
-		Atividade trabalhar = new Atividade();
-		trabalhar.setDescricao("Trabalhar");
-		
-		Atividade estudar = new Atividade();
-		estudar.setDescricao("Estudar");
-		
-		anderson.getAtividades().add(trabalhar);
-		anderson.getAtividades().add(estudar);
-		
-		manager.getTransaction().begin();			
-		manager.persist(anderson);		
-		manager.getTransaction().commit();		
+		manager.getTransaction().begin();
+		manager.persist(nota);
+		manager.persist(privada);
+		manager.persist(pinico);
+		manager.persist(chupeta);
+		manager.getTransaction().commit();
+	
+		System.out.println("Valor total da nota: " + nota.valorTotal());
 		
 		manager.close();
 		factory.close();
