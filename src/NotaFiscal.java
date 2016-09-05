@@ -1,9 +1,6 @@
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,8 +15,8 @@ public class NotaFiscal {
 	
 	private String cliente;
 	
-	@OneToMany(mappedBy="notaFiscal", cascade=CascadeType.ALL)
-	private List<Item> itens = new ArrayList<Item>();
+	@OneToMany( mappedBy = "notaFiscal")
+	private List<Item> itens;
 	
 	public NotaFiscal() {		
 	}

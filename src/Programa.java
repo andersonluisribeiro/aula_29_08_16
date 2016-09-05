@@ -20,9 +20,12 @@ public class Programa {
 		manager.persist(privada);
 		manager.persist(pinico);
 		manager.persist(chupeta);
+		
 		manager.getTransaction().commit();
-	
-		System.out.println("Valor total da nota: " + nota.valorTotal());
+		
+		NotaFiscal notaPersistida = manager.find(NotaFiscal.class, 1l);	
+		System.out.println("Valor total da nota: " + notaPersistida.valorTotal());
+		
 		
 		manager.close();
 		factory.close();
