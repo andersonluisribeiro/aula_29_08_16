@@ -6,29 +6,28 @@ public class Programa {
 
 	public static void main(String[] args) {
 		
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("loja");
-		EntityManager manager = factory.createEntityManager();
+		//criando todos os daos
+		NotaFiscalDAO notaFiscalDAO = new NotaFiscalDAO();
+		ItemDAO itemDAO = new ItemDAO();
 		
+		//intanciar os objetos
 		NotaFiscal nota = new NotaFiscal("Anderson");
-		
-		Item privada = new Item("Privada", 10.5d, nota);
+		Item privada = new Item("Privada", 30.5d, nota);
 		Item pinico = new Item("Pinico", 10.5d, nota);
-		Item chupeta = new Item("Chupeta", 10.5d, nota);		
+		Item chupeta = new Item("Chupeta", 10.5d, nota);
 		
-		manager.getTransaction().begin();
-		manager.persist(nota);
-		manager.persist(privada);
-		manager.persist(pinico);
-		manager.persist(chupeta);
+		//salvando os objetos
+		notaFiscalDAO.salvar(nota);
+		itemDAO.salvar(privada);
+		itemDAO.salvar(pinico);
+		itemDAO.salvar(chupeta);
 		
-		manager.getTransaction().commit();
+		//recuperando a nota fiscal
+		NotaFiscal notaPersistida = notaFiscalDAO.encontrarPorId(1l);	
+		System.out.println("Valor total da nota: " + notaPersistida.valorTotal());		
 		
-		NotaFiscal notaPersistida = manager.find(NotaFiscal.class, 1l);	
-		System.out.println("Valor total da nota: " + notaPersistida.valorTotal());
-		
-		
-		manager.close();
-		factory.close();
+		notaFiscalDAO.fechaConexao();
+		itemDAO.fechaConexao();
 	
 	}
 

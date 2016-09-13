@@ -1,3 +1,6 @@
 /META-INF/
 /NotaFiscal.class
 /Item.class
+/NotaFiscalDAO.class
+/ItemDAO.class
+/JPAUtil.class
