@@ -1,38 +1,41 @@
+import java.util.List;
+
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 public class Programa {
 
 	public static void main(String[] args) {
 		
 		JPAUtil util = new JPAUtil();
+		EntityManager manager = util.criarEntityManager();
 		
-		//criando todos os daos
-		NotaFiscalDAO notaFiscalDAO = new NotaFiscalDAO(util.criarEntityManager());
-		ItemDAO itemDAO = new ItemDAO(util.criarEntityManager());
+		Vendedor anderson = new Vendedor("Anderson");
 		
-		//intanciar os objetos
-		NotaFiscal nota = new NotaFiscal("Anderson");
-		Item privada = new Item("Privada", 30.5d, nota);
-		Item pinico = new Item("Pinico", 10.5d, nota);
-		Item chupeta = new Item("Chupeta", 10.5d, nota);
+		Produto pinico = new Produto("Pinico");
+		Produto esqueiro = new Produto("Esqueiro");
 		
-		//salvando os objetos
-		util.abrirTransacao();
-		notaFiscalDAO.salvar(nota);
-		itemDAO.salvar(privada);
-		itemDAO.salvar(pinico);
-		itemDAO.salvar(chupeta);
-		util.commitarTransacao();
+		Venda primeira = new Venda(10, anderson, pinico);
+		Venda segunda = new Venda(11, anderson, esqueiro);
+		Venda terceira = new Venda(9, anderson, esqueiro);
 		
-		//recuperando a nota fiscal
-		NotaFiscal notaPersistida = notaFiscalDAO.encontrarPorId(1l);	
-		System.out.println("Valor total da nota: " + notaPersistida.valorTotal());		
+		manager.getTransaction().begin();
+		manager.persist(anderson);
+		manager.persist(pinico);
+		manager.persist(esqueiro);
+		manager.persist(primeira);
+		manager.persist(segunda);
+		manager.persist(terceira);
+		manager.getTransaction().commit();
+		
+		Vendedor vendedorSalvo = manager.find(Vendedor.class, 23l);
+		Produto produtoSalvo = manager.find(Produto.class, 25l);
+		System.out.println("As vendas dele foi: " + vendedorSalvo.media(produtoSalvo));
+		
+		
 		
 		util.fecharManager();
 		util.fecharFactory();
-	
+
 	}
 
 }
