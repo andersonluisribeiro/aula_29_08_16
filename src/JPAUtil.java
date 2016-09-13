@@ -14,8 +14,9 @@ public class JPAUtil {
 	
 	//cria e retorna um entity manager
 	public EntityManager criarEntityManager(){
-		if(manager != null){
-			return factory.createEntityManager();
+		if(manager == null){
+			manager = factory.createEntityManager();
+			return manager;
 		}else{
 			return manager;
 		}		
